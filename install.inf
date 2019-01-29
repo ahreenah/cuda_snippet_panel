@@ -2,7 +2,7 @@
 title=Symbol Inserter
 desc=Some description
 type=cudatext-plugin
-subdir=cuda_symbol_inserter
+subdir=cuda_snippet_panel
 homepage=
 
 [item2]

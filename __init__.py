@@ -12,7 +12,8 @@ def str_to_bool(s): return s=='1'
 class Command:
     
     def __init__(self):
-
+        global real_elements
+        real_elements=[]
         global option_int
         global option_bool
         option_int = int(ini_read(fn_config, 'op', 'option_int', str(option_int)))
@@ -48,12 +49,31 @@ class Command:
             return f.readlines()
         
         #print(get_symbols_of_type(headers[0]))
-            
+        heads=[]    
         h=dlg_proc(0, DLG_CREATE)
             
-        def show_list_by_num(data):
-            print('abc')
+        def show_list_by_num(self, id_dlg, data='', info=''):
+            num=int(dlg_proc(h, DLG_CTL_PROP_GET, index=dropdown)['val'])
+            global heads
+            heads=headers[num]
+            print (num)
+            global real_elements#=get_symbols_of_type(heads)
+            real_elements=get_symbols_of_type(heads)
+            set_items(h,outlist,get_symbols_of_type(heads) )
             pass    
+        
+        def insert_symbol(self, id_dlg, data='', info=''):
+            num=int(dlg_proc(h, DLG_CTL_PROP_GET, index=outlist)['val'])
+            global heads
+            val=dlg_proc(h, DLG_CTL_PROP_GET, index=dropdown)
+            print('inserting... '+str(num))
+            global real_elements
+            print(str(real_elements[num]))
+            x,y,a,a=ed.get_carets()[0]
+            ed.insert(x,y,real_elements[num][0])
+            #print(heads)
+            #print('tmp: '+str(dlg_proc(h,LOG_GET_LINES_LIST,index=outlist)))
+            pass
             
         dropdown=dlg_proc(h, DLG_CTL_ADD,'combo_ro')
         dlg_proc(h, DLG_CTL_PROP_SET, index=dropdown, prop={
@@ -61,14 +81,15 @@ class Command:
             'align'            : ALIGN_TOP,
             'items'            : 'a\tb\tc',
             'val'              : 2,
-            'on_change'        : show_list_by_num,
+            'on_click'         : show_list_by_num,
         })
         
         outlist=dlg_proc(h, DLG_CTL_ADD,'listbox')
         dlg_proc(h, DLG_CTL_PROP_SET, index=outlist, prop={
-            'name'   : 'list',
-            'align'  : ALIGN_CLIENT,
-            'items'  : 'ku\tka\tre\tku'
+            'name'          : 'list',
+            'align'         : ALIGN_CLIENT,
+            'items'         : 'ku\tka\tre\tku',
+            'on_click_dbl'  : insert_symbol,
         })
         
         def set_items(h,lst,items):
@@ -79,10 +100,13 @@ class Command:
                 s+=value
             dlg_proc(h,DLG_CTL_PROP_SET, index=lst, prop={
                 'items' : s,
-                'on_change':show_list_by_num,
+                #'on_change':show_list_by_num,
             })
+        global real_elements
         set_items(h,dropdown,headers)
         set_items(h,outlist,get_symbols_of_type(headers[0]))
+        real_elements=get_symbols_of_type(headers[0])
+        print('re: '+str(real_elements))
         return h
 
     def show_menu(self):
