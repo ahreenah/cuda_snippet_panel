@@ -1,0 +1,16 @@
+[info]
+title=Symbol Inserter
+desc=Some description
+type=cudatext-plugin
+subdir=cuda_symbol_inserter
+homepage=
+
+[item2]
+section=commands
+caption=MySample
+method=run
+
+[item3]
+section=commands
+caption=Symbol Inserter\show menu
+method=show_menu
