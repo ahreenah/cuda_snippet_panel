@@ -36,38 +36,58 @@ class Command:
              )
         msg_box(s, MB_OK)
         
+        
     def create_menu(self):
+        clips_folder='py/cuda_symbol_inserter/clips/'
+        headers = os.listdir(clips_folder)
+        def get_symbols_of_type(symbol_type):
+            #os.chdir(symbol_type)
+            f=open(clips_folder+symbol_type+'/List.txt','r', encoding='utf-16')
+            #f.read()
+            #os.chdir('..')
+            return f.readlines()
+        
+        #print(get_symbols_of_type(headers[0]))
+            
         h=dlg_proc(0, DLG_CREATE)
-        dlg_proc(h, DLG_PROP_SET, prop={      # creates an empty dialog
-            'cap': 'main dlg',
-            'x': 100,
-            'y': 50,
-            'w': 400,
-            'h': 300,
-            'w_min': 200,
-            'h_min': 300,
-            'border': DBORDER_SIZE,
-            'topmost': True,
-            })
-
-     
-        p=dlg_proc(h, DLG_CTL_ADD,'button')
-        dlg_proc(h, DLG_PROP_SET, index=p, prop={
-            'name' : 'list',
-            'cap'  : 'sybol type',
-            'x'    : 10,  
-            'y'    : 30, 
-            'w'    : 50,
-            'tag'  : 'some_tag',
+            
+        def show_list_by_num(data):
+            print('abc')
+            pass    
+            
+        dropdown=dlg_proc(h, DLG_CTL_ADD,'combo_ro')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=dropdown, prop={
+            'name'             : 'list',
+            'align'            : ALIGN_TOP,
+            'items'            : 'a\tb\tc',
+            'val'              : 2,
+            'on_change'        : show_list_by_num,
         })
-
-        #nfocus = dlg_proc(h, DLG_CTL_FIND, 'edit1')
-        #dlg_proc(h, DLG_CTL_FOCUS, index=nfocus)
+        
+        outlist=dlg_proc(h, DLG_CTL_ADD,'listbox')
+        dlg_proc(h, DLG_CTL_PROP_SET, index=outlist, prop={
+            'name'   : 'list',
+            'align'  : ALIGN_CLIENT,
+            'items'  : 'ku\tka\tre\tku'
+        })
+        
+        def set_items(h,lst,items):
+            s=''
+            for num,value in enumerate(items):
+                if num>0:
+                    s+='\t'
+                s+=value
+            dlg_proc(h,DLG_CTL_PROP_SET, index=lst, prop={
+                'items' : s,
+                'on_change':show_list_by_num,
+            })
+        set_items(h,dropdown,headers)
+        set_items(h,outlist,get_symbols_of_type(headers[0]))
         return h
 
     def show_menu(self):
         print('test_sidepanel')
-        title = 'Side dialog'
+        title = 'Insert symbols'
         id_dlg = self.create_menu()
         icon_name = 'project.png'
 
