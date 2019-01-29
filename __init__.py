@@ -16,6 +16,8 @@ class Command:
         real_elements=[]
         global option_int
         global option_bool
+        global h
+        h=self.create_menu()
         option_int = int(ini_read(fn_config, 'op', 'option_int', str(option_int)))
         option_bool = str_to_bool(ini_read(fn_config, 'op', 'option_bool', bool_to_str(option_bool)))
 
@@ -24,7 +26,9 @@ class Command:
         ini_write(fn_config, 'op', 'option_int', str(option_int))
         ini_write(fn_config, 'op', 'option_bool', bool_to_str(option_bool))
         file_open(fn_config)
-        
+    def get_symbols_of_type(self,symbol_type):
+        f=open(clips_folder+symbol_type+'/List.txt','r', encoding='utf-16')
+        return f.readlines()        
     def run(self):
         s = '''
         file lines count: {cnt}
@@ -37,32 +41,23 @@ class Command:
              )
         msg_box(s, MB_OK)
         
-        
-    def create_menu(self):
-        clips_folder='py/cuda_symbol_inserter/clips/'
-        headers = os.listdir(clips_folder)
-        def get_symbols_of_type(symbol_type):
-            #os.chdir(symbol_type)
-            f=open(clips_folder+symbol_type+'/List.txt','r', encoding='utf-16')
-            #f.read()
-            #os.chdir('..')
-            return f.readlines()
-        
-        #print(get_symbols_of_type(headers[0]))
-        heads=[]    
-        h=dlg_proc(0, DLG_CREATE)
-            
-        def show_list_by_num(self, id_dlg, data='', info=''):
+    
+    def show_list_by_num(self, id_dlg, id_ctl, data='', info=''):
+            global dropdown, outlist
             num=int(dlg_proc(h, DLG_CTL_PROP_GET, index=dropdown)['val'])
             global heads
+            global headers
             heads=headers[num]
             print (num)
             global real_elements#=get_symbols_of_type(heads)
-            real_elements=get_symbols_of_type(heads)
-            set_items(h,outlist,get_symbols_of_type(heads) )
+            def get_symbols_of_type(symbol_type):
+                f=open(clips_folder+symbol_type+'/List.txt','r', encoding='utf-16')
+                return f.readlines()
+            real_elements=self.get_symbols_of_type(heads)
+            set_items(h,outlist,self.get_symbols_of_type(heads) )
             pass    
         
-        def insert_symbol(self, id_dlg, data='', info=''):
+    def insert_symbol(self, id_dlg, id_ctl, data='', info=''):
             num=int(dlg_proc(h, DLG_CTL_PROP_GET, index=outlist)['val'])
             global heads
             val=dlg_proc(h, DLG_CTL_PROP_GET, index=dropdown)
@@ -74,24 +69,34 @@ class Command:
             #print(heads)
             #print('tmp: '+str(dlg_proc(h,LOG_GET_LINES_LIST,index=outlist)))
             pass
+    
+    def create_menu(self):
+        clips_folder='py/cuda_symbol_inserter/clips/'
+        global headers
+        headers = os.listdir(clips_folder)
+        heads=[]    
+        h=dlg_proc(0, DLG_CREATE)
+            
+        global dropdown, outlist
             
         dropdown=dlg_proc(h, DLG_CTL_ADD,'combo_ro')
         dlg_proc(h, DLG_CTL_PROP_SET, index=dropdown, prop={
-            'name'             : 'list',
+            'name'             : 'listdrop',
             'align'            : ALIGN_TOP,
             'items'            : 'a\tb\tc',
             'val'              : 2,
-            'on_click'         : show_list_by_num,
+            'on_click'         : 'cuda_symbol_inserter.show_list_by_num',
         })
         
         outlist=dlg_proc(h, DLG_CTL_ADD,'listbox')
         dlg_proc(h, DLG_CTL_PROP_SET, index=outlist, prop={
-            'name'          : 'list',
+            'name'          : 'listout',
             'align'         : ALIGN_CLIENT,
             'items'         : 'ku\tka\tre\tku',
-            'on_click_dbl'  : insert_symbol,
+            'on_click_dbl'  : 'cuda_symbol_inserter.insert_symbol',
         })
-        
+        def get_symbols_of_type():
+	    return ['a','b','c']
         def set_items(h,lst,items):
             s=''
             for num,value in enumerate(items):
@@ -102,10 +107,12 @@ class Command:
                 'items' : s,
                 #'on_change':show_list_by_num,
             })
+        
         global real_elements
+
         set_items(h,dropdown,headers)
-        set_items(h,outlist,get_symbols_of_type(headers[0]))
-        real_elements=get_symbols_of_type(headers[0])
+        set_items(h,outlist,self.get_symbols_of_type(headers[0]))
+        real_elements=self.get_symbols_of_type(headers[0])
         print('re: '+str(real_elements))
         return h
 
