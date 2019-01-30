@@ -34,6 +34,15 @@ class Command:
     def get_symbols_of_type(self,symbol_type):
         clips_folder='py'+os.sep+'cuda_symbol_inserter'+os.sep+'clips'+os.sep
         f=open(clips_folder+symbol_type+os.sep+'List.txt','r', encoding='utf-16')
+        files_list=os.listdir(clips_folder+symbol_type)
+        files_list=[i for i in files_list if i.endswith('.txt')]
+        print('all files: '+str(files_list))######################working
+        retarr=[]
+        for i in files_list:
+            f=open(clips_folder+symbol_type+os.sep+i,'r', encoding='utf-16')
+            for j in f.readlines():
+                retarr.append(j)
+        return retarr
         return f.readlines() 
         ''' def show_list_by_num(self, id_dlg, id_ctl, data='', info=''):
         global dropdown, outlist
