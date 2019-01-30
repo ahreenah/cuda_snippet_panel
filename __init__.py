@@ -3,8 +3,6 @@ from cudatext import *
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_symbol_inserter.ini')
 
-option_int = 100
-option_bool = True
 
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
@@ -23,8 +21,8 @@ class Command:
         syms=self.get_symbols_of_type(heads)
         print(syms)
         global outlist
-        dlg_proc(h,DLG_CTL_PROP_SET, index=outlist, prop={
-                  'items' : '1\t2\t3'],
+        dlg_proc(id_dlg,DLG_CTL_PROP_SET, index=outlist, prop={
+                  'items' : '\t'.join(syms),
                   #'on_change':show_list_by_num,
             })#self.set_items(h,outlist,syms )
         print (num)
@@ -34,10 +32,10 @@ class Command:
         #self.set_items(h,outlist,self.get_symbols_of_type(heads) )
         
     def get_symbols_of_type(self,symbol_type):
-        clips_folder='py/cuda_symbol_inserter/clips/'
-        f=open(clips_folder+symbol_type+'/List.txt','r', encoding='utf-16')
+        clips_folder='py'+os.sep+'cuda_symbol_inserter'+os.sep+'clips'+os.sep
+        f=open(clips_folder+symbol_type+os.sep+'List.txt','r', encoding='utf-16')
         return f.readlines() 
-    def show_list_by_num(self, id_dlg, id_ctl, data='', info=''):
+        ''' def show_list_by_num(self, id_dlg, id_ctl, data='', info=''):
         global dropdown, outlist
         print(dlg_proc(h, DLG_PROP_GET, index=dropdown, name='listdrop'))
         num=int(dlg_proc(h, DLG_CTL_PROP_GET, index=dropdown)['val'])
@@ -51,7 +49,7 @@ class Command:
         real_elements=self.get_symbols_of_type(heads)
         self.set_items(h,outlist,self.get_symbols_of_type(heads) )
         pass    
-           
+        '''     
     def insert_symbol(self, id_dlg, id_ctl, data='', info=''):
         num=int(dlg_proc(h, DLG_CTL_PROP_GET, index=outlist)['val'])
         global heads
@@ -67,12 +65,10 @@ class Command:
     def __init__(self):
         global real_elements
         real_elements=[]
-        global option_int
-        global option_bool
+        
         global h
         h=self.create_menu()
-        option_int = int(ini_read(fn_config, 'op', 'option_int', str(option_int)))
-        option_bool = str_to_bool(ini_read(fn_config, 'op', 'option_bool', bool_to_str(option_bool)))
+        
     def set_items(self,h,lst,items):
         s=''
         for num,value in enumerate(items):
@@ -85,24 +81,13 @@ class Command:
             })
     def config(self):
 
-        ini_write(fn_config, 'op', 'option_int', str(option_int))
-        ini_write(fn_config, 'op', 'option_bool', bool_to_str(option_bool))
+        
         file_open(fn_config)
            
-    def run(self):
-        s = '''
-        file lines count: {cnt}
-        option_int: {i}
-        option_bool: {b}
-        '''.format(
-             cnt = ed.get_line_count(),
-             i = option_int,
-             b = option_bool,
-             )
-        msg_box(s, MB_OK)
+    
     
     def create_menu(self):
-        clips_folder='py/cuda_symbol_inserter/clips/'
+        clips_folder='py'+os.sep+'cuda_symbol_inserter'+os.sep+'clips'+os.sep
         global headers
         headers = os.listdir(clips_folder)
         heads=[]    
