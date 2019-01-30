@@ -12,5 +12,5 @@ method=run
 
 [item3]
 section=commands
-caption=Symbol Inserter\show menu
+caption=Snippet Panel\show menu
 method=show_menu

@@ -21,7 +21,7 @@ class Command:
         syms=self.get_symbols_of_type(heads)
         print(syms)
         global outlist
-        dlg_proc(id_dlg,DLG_CTL_PROP_SET, index=outlist, prop={
+        dlg_proc(id_dlg,DLG_CTL_PROP_SET, name='listout', prop={
                   'items' : '\t'.join(syms),
                   #'on_change':show_list_by_num,
             })#self.set_items(h,outlist,syms )
@@ -32,7 +32,7 @@ class Command:
         #self.set_items(h,outlist,self.get_symbols_of_type(heads) )
         
     def get_symbols_of_type(self,symbol_type):
-        clips_folder='py'+os.sep+'cuda_symbol_inserter'+os.sep+'clips'+os.sep
+        clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
         f=open(clips_folder+symbol_type+os.sep+'List.txt','r', encoding='utf-16')
         files_list=os.listdir(clips_folder+symbol_type)
         files_list=[i for i in files_list if i.endswith('.txt')]
@@ -60,7 +60,7 @@ class Command:
         pass    
         '''     
     def insert_symbol(self, id_dlg, id_ctl, data='', info=''):
-        num=int(dlg_proc(h, DLG_CTL_PROP_GET, index=outlist)['val'])
+        num=int(dlg_proc(h, DLG_CTL_PROP_GET, name='listout')['val'])
         global heads
         val=dlg_proc(h, DLG_CTL_PROP_GET, index=dropdown)
         print('inserting... '+str(num))
@@ -96,7 +96,7 @@ class Command:
     
     
     def create_menu(self):
-        clips_folder='py'+os.sep+'cuda_symbol_inserter'+os.sep+'clips'+os.sep
+        clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
         global headers
         headers = os.listdir(clips_folder)
         heads=[]    
@@ -120,7 +120,7 @@ class Command:
             'name'          : 'listout',
             'align'         : ALIGN_CLIENT,
             'items'         : 'ku\tka\tre\tku',
-            'on_click_dbl'  : 'cuda_symbol_inserter.insert_symbol',
+            'on_click_dbl'  : 'cuda_snippet_panel.insert_symbol',
         })
         
 
