@@ -39,15 +39,20 @@ class Command:
         #global clips_folder
         #clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
         global clips_folder
-        f=open(clips_folder+symbol_type+os.sep+'List.txt','r', encoding='utf-16')
         files_list=os.listdir(clips_folder+symbol_type)
         files_list=[i for i in files_list if i.endswith('.txt')]
         print('all files: '+str(files_list))######################working
         retarr=[]
         for i in files_list:
-            f=open(clips_folder+symbol_type+os.sep+i,'r', encoding='utf-16')
-            for j in f.readlines():
-                retarr.append(j)
+            fname = clips_folder+symbol_type+os.sep+i
+            try:
+                f=open(fname ,'r', encoding='utf-16')
+                for j in f.readlines():
+                    retarr.append(j)
+            except:
+                f=open(fname, 'r', encoding='utf-8')
+                for j in f.readlines():
+                    retarr.append(j)
         return retarr
         return f.readlines() 
         ''' def show_list_by_num(self, id_dlg, id_ctl, data='', info=''):
