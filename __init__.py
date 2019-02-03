@@ -2,6 +2,7 @@ import os
 from cudatext import *
 
 fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_snippet_panel.ini')
+fn_icon = os.path.join(os.path.dirname(__file__), 'snip.png')
 
 dir_py = app_path(APP_DIR_PY)
 clips_folder=dir_py+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
@@ -138,11 +139,9 @@ class Command:
 
     def show_menu(self):
         print('test_sidepanel')
-        title = 'Insert symbols'
         id_dlg = self.create_menu()
-        icon_name = 'project.png'
 
-        app_proc(PROC_SIDEPANEL_ADD_DIALOG, (title, id_dlg, icon_name) )
+        app_proc(PROC_SIDEPANEL_ADD_DIALOG, ('Snippet Panel', id_dlg, fn_icon) )
         app_proc(PROC_SIDEPANEL_ACTIVATE, title)
         
     def show_menu_tmp(self):
