@@ -1,14 +1,9 @@
 [info]
 title=Snippet Panel
-desc=Some description
+desc=Snippet Panel in the sidebar, which is similar to Clips panel in SynWrite editor
 type=cudatext-plugin
 subdir=cuda_snippet_panel
 homepage=https://github.com/medvosa/cuda_snippet_panel
-
-[item2]
-section=commands
-caption=MySample
-method=run
 
 [item3]
 section=commands
