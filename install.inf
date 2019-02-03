@@ -1,9 +1,9 @@
 [info]
-title=Symbol Inserter
+title=Snippet Panel
 desc=Some description
 type=cudatext-plugin
 subdir=cuda_snippet_panel
-homepage=
+homepage=https://github.com/medvosa/cuda_snippet_panel
 
 [item2]
 section=commands
@@ -12,5 +12,5 @@ method=run
 
 [item3]
 section=commands
-caption=Snippet Panel\show menu
+caption=Snippet Panel
 method=show_menu

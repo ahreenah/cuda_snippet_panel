@@ -1,8 +1,10 @@
 import os
 from cudatext import *
 
-fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_symbol_inserter.ini')
+fn_config = os.path.join(app_path(APP_DIR_SETTINGS), 'cuda_snippet_panel.ini')
 
+dir_py = app_path(APP_DIR_PY)
+clips_folder=dir_py+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
 
 def bool_to_str(v): return '1' if v else '0'
 def str_to_bool(s): return s=='1'
@@ -26,13 +28,17 @@ class Command:
                   #'on_change':show_list_by_num,
             })#self.set_items(h,outlist,syms )
         print (num)
+        #global clips_folder
+        #clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
         #global real_elements
         #
         #real_elements=self.get_symbols_of_type(heads)
         #self.set_items(h,outlist,self.get_symbols_of_type(heads) )
         
     def get_symbols_of_type(self,symbol_type):
-        clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
+        #global clips_folder
+        #clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
+        global clips_folder
         f=open(clips_folder+symbol_type+os.sep+'List.txt','r', encoding='utf-16')
         files_list=os.listdir(clips_folder+symbol_type)
         files_list=[i for i in files_list if i.endswith('.txt')]
@@ -74,7 +80,8 @@ class Command:
     def __init__(self):
         global real_elements
         real_elements=[]
-        
+        #global clips_folder
+        #clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
         global h
         h=self.create_menu()
         
@@ -89,15 +96,13 @@ class Command:
                   #'on_change':show_list_by_num,
             })
     def config(self):
-
-        
         file_open(fn_config)
            
     
     
     def create_menu(self):
-        clips_folder='py'+os.sep+'cuda_snippet_panel'+os.sep+'clips'+os.sep
         global headers
+        global clips_folder
         headers = os.listdir(clips_folder)
         heads=[]    
         h=dlg_proc(0, DLG_CREATE)
