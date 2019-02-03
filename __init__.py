@@ -139,9 +139,10 @@ class Command:
 
     def show_menu(self):
         print('test_sidepanel')
+        title = 'Snippet Panel'
         id_dlg = self.create_menu()
 
-        app_proc(PROC_SIDEPANEL_ADD_DIALOG, ('Snippet Panel', id_dlg, fn_icon) )
+        app_proc(PROC_SIDEPANEL_ADD_DIALOG, (title, id_dlg, fn_icon) )
         app_proc(PROC_SIDEPANEL_ACTIVATE, title)
         
     def show_menu_tmp(self):
