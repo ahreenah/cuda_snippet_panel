@@ -29,6 +29,7 @@ class Command:
         files_list=os.listdir(clips_folder+symbol_type)
         files_list=[i for i in files_list if i.endswith('.txt')]
         retarr=[]
+        fname = clips_folder+symbol_type+os.sep+i
         for i in files_list:
             try:
                 f=open(fname ,'r', encoding='utf-16')
