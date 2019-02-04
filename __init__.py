@@ -29,7 +29,6 @@ class Command:
         files_list=os.listdir(clips_folder+symbol_type)
         files_list=[i for i in files_list if i.endswith('.txt')]
         retarr=[]
-        
         for i in files_list:
             fname = clips_folder+symbol_type+os.sep+i
             try:
@@ -46,7 +45,7 @@ class Command:
     def insert_symbol(self, id_dlg, id_ctl, data='', info=''):
         num=int(dlg_proc(h, DLG_CTL_PROP_GET, name='listout')['val'])
         global heads
-        val=dlg_proc(h, DLG_CTL_PROP_GET, index=dropdown)
+        val=dlg_proc(h, DLG_CTL_PROP_GET, name='dropdown')
         global real_elements
         x,y,a,a=ed.get_carets()[0]
         i=real_elements[num]
@@ -96,7 +95,7 @@ class Command:
         real_elements=self.get_symbols_of_type(headers[0])
         return h
 
-    def show_menu():
+    def show_menu(self):
         id_dlg = self.create_menu()
         app_proc(PROC_SIDEPANEL_ADD_DIALOG, ('Snippet Panel', id_dlg, fn_icon) )
-        app_proc(PROC_SIDEPANEL_ACTIVATE, title)
+        app_proc(PROC_SIDEPANEL_ACTIVATE, 'Snippet Panel')
